@@ -1,5 +1,5 @@
 
-import './App.css'
+import './css/App.css';
 import MovieCard from './components/MovieCard'
 import Favourite from './pages/Favourites';
 import Home from './pages/Home';
@@ -21,7 +21,7 @@ function App() {
           <Route path="/favourite" element={<Favourite />} />
 
 
-        </Routes>
+        </Routes> 
       </main>
     </div>
   </>
