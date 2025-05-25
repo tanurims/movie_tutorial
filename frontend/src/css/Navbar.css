@@ -8,8 +8,14 @@
 }
 
 .navbar-brand {
+  
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.navbar-brand .brand-tagline {
+  font-size: 0.875rem;
+  color: #888888;
 }
 
 .navbar-links {
