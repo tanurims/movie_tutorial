@@ -5,6 +5,7 @@ import Favourite from './pages/Favourites';
 import Home from './pages/Home';
 import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 import { MovieProvider } from './context/MovieContext';
 import { Movie } from '@mui/icons-material';
 
@@ -26,6 +27,7 @@ function App() {
         </Routes> 
       </main>
     </MovieProvider>
+    <Footer />
   </>
   )
   
