@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react"
+import { getGenres } from "../services/api"
 
 const MovieContext = createContext()
 
@@ -6,6 +7,21 @@ export const useMovieContext = () => useContext(MovieContext)
 
 export const MovieProvider = ({children}) => {
     const [favorites, setFavorites] = useState([])
+    const [genres, setGenres] = useState([])
+    const [selectedGenre, setSelectedGenre] = useState(null)
+
+    useEffect(() => {
+        const fetchGenres = async () => {
+            try {
+                const genreList = await getGenres();
+                setGenres(genreList);
+            } catch (error) {
+                console.error("Error fetching genres:", error);
+            }
+        };
+
+        fetchGenres();
+    }, []);
 
     useEffect(() => {
         const storedFavs = localStorage.getItem('favorites')
@@ -36,7 +52,11 @@ export const MovieProvider = ({children}) => {
         favorites,
         addToFavorites,
         removeFromFavorites,
-        isFavorite
+        isFavorite,
+        genres,
+        selectedGenre,
+        setSelectedGenre
+
     }
 
     return <MovieContext.Provider value={value}>

@@ -1,7 +1,8 @@
 import MovieCard from "../components/MovieCard";
 import { useState , useEffect} from "react";
 import '../css/Home.css';
-import { searchMovies, getPopularMovies } from "../services/api";
+import { searchMovies, getPopularMovies, getMoviesByGenre} from "../services/api";
+import { useMovieContext } from "../context/MovieContext";
 
 function Home() {
     const[searchQuery, setSearchQuery] = useState("");
@@ -10,10 +11,37 @@ function Home() {
     const [movies, setMovies] = useState([]);
     const [error,setError] = useState(null);
     const[loading, setLoading] = useState(true);
+    const{selectedGenre} = useMovieContext();
 
+    //useEffect to fetch movies by genre when the component mounts
     useEffect(() => {
-        const loadPopularMovies = async () => {
-            try{
+        const fetchMovies = async () => {
+            setLoading(true);
+            try {
+                let movieData;
+                if (selectedGenre) {
+                    movieData = await getMoviesByGenre(selectedGenre.id);
+                } else if (searchQuery) {
+                    movieData = await searchMovies(searchQuery);
+                } else {
+                    movieData = await getPopularMovies();
+                }
+                setMovies(movieData);
+            } catch (error) {
+                console.error("Error fetching movies:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMovies();
+    }, [selectedGenre, searchQuery]);
+
+
+    //useEffect to fetch popular movies when the component mounts
+   /*useEffect(() => {
+       const loadPopularMovies = async () => {
+         try{
                 const PopularMovies= await getPopularMovies()
                 setMovies(PopularMovies);
             } catch(err){
@@ -25,7 +53,7 @@ function Home() {
             }
         };
         loadPopularMovies();
-    }, []);
+    }, []);*/
 
 
     const handleSearch = async (e) => {
@@ -49,8 +77,13 @@ function Home() {
         
     };
 
+    if (loading) {
+        return <div className="loading">Loading movies...</div>;
+    }
+
 
     return <div className="home">
+        <h2 className="title">Popular Movies</h2>
         <form onSubmit={handleSearch} className="search-form">
             <input 
             type="text" 
