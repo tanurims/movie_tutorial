@@ -2,6 +2,7 @@ import "../css/MovieCard.css";
 import { useMovieContext } from "../context/MovieContext";
 import { getMovieDetails } from "../services/api";
 import { useEffect, useState } from "react";
+import MovieDetails from "./MovieDetails";
 
 
 
@@ -9,6 +10,7 @@ function MovieCard({ movie }) {
     const { addToFavorites, removeFromFavorites, isFavorite } = useMovieContext();
     const favorite = isFavorite(movie.id);
     const [movieDetails, setMovieDetails] = useState(null);
+    const [showDetails, setShowDetails] = useState(false);
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -48,7 +50,14 @@ function MovieCard({ movie }) {
         }
     }
 
-  return <div className="movie-card">
+    function onCardClick(){
+        setShowDetails(true);
+    }
+    function closeDetails(){
+        setShowDetails(false);
+    }
+
+  return <div className="movie-card" onClick={onCardClick}>
         <div className="movie-poster">
             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title}/>
             <div className="movie-overlay">
@@ -63,10 +72,18 @@ function MovieCard({ movie }) {
             <h3>{movie.title}</h3>
             <p>{movie.release_date?.split("-")[0]}</p>
 
-            <p>{movieDetails?.runtime ? formatRuntime(movieDetails.runtime) : 'Loading...'}</p>
+            <p>Duration: {movieDetails?.runtime ? formatRuntime(movieDetails.runtime) : 'Loading...'}</p>
 
         </div>
+
+        <MovieDetails
+            movie={movieDetails}
+            onClose={closeDetails}
+            isOpen={showDetails}
+        />
+
   </div>
+
 }
 
 export default MovieCard;

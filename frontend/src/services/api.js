@@ -34,3 +34,9 @@ export const getMoviesByGenre = async (genreId) => {
     const data = await response.json()
     return data.results
 };
+
+export const getMovieCast = async(movieId) => {
+    const response = await fetch(`${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}`);
+    const data = await response.json()
+    return data.cast
+}
