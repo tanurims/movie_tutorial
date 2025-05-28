@@ -1,8 +1,9 @@
 .footer {
-  background: linear-gradient(135deg, #242424 0%, #1a1a1a 100%);
   position: relative;
   overflow: hidden;
   margin-top: auto;
+  background-color: #000000;
+
 }
 
 .footer-container {
@@ -11,6 +12,7 @@
   padding: 0 20px;
   position: relative;
   z-index: 2;
+  
 }
 
 /* Newsletter Section */
@@ -19,7 +21,8 @@
   border: 1px solid rgba(229, 9, 20, 0.2);
   border-radius: 16px;
   padding: 40px;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
+  margin-top: 60px;
   backdrop-filter: blur(10px);
   position: relative;
   transform: translateY(-20px);
@@ -167,6 +170,7 @@
   gap: 60px;
   padding: 40px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
 }
 
 /* Brand Section */

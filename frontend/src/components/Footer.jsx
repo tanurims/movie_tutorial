@@ -74,7 +74,7 @@ function Footer() {
                     <div className="success-icon">
                         <Heart size={20}/>
                     </div>
-                    <span>Thanks for subscribing! You'll receive movie updates soon.</span>
+                    <span>Thanks for subscribing! You'll receive movie updates soon.</span> 
                 </div>
                )}
             </div>
