@@ -21,21 +21,41 @@ function Home() {
                 let movieData;
                 if (selectedGenre) {
                     movieData = await getMoviesByGenre(selectedGenre.id);
-                } else if (searchQuery) {
-                    movieData = await searchMovies(searchQuery);
                 } else {
                     movieData = await getPopularMovies();
                 }
                 setMovies(movieData);
+                setError(null);
             } catch (error) {
                 console.error("Error fetching movies:", error);
+                setError("Failed to load movies...");
             } finally {
                 setLoading(false);
             }
         };
 
         fetchMovies();
-    }, [selectedGenre, searchQuery]);
+    }, [selectedGenre]);
+
+
+    useEffect(() => {
+        if(!searchQuery.trim()) return;
+
+        const searchMoviesDebounced = async() => {
+            try{
+                
+                const searchResults = await searchMovies(searchQuery);
+                setMovies(searchResults);
+                setError(null);
+            } catch(error){
+                console.error("Error searching movies:", error);
+                setError("Failed to search movies...");
+            }
+        };
+
+        const timeoutId = setTimeout(searchMoviesDebounced, 500);
+        return () => clearTimeout(timeoutId);
+    }, [searchQuery]);
 
 
     //useEffect to fetch popular movies when the component mounts
@@ -56,25 +76,28 @@ function Home() {
     }, []);*/
 
 
-    const handleSearch = async (e) => {
-        //prevent refresh the form
-        e.preventDefault()
-        if(!searchQuery.trim()) return
-        if(loading) return
+    const handleInputChange = (e) =>{
+        const value = e.target.value;
+        setSearchQuery(value);
 
-        setLoading(true)
-        try{
-            const searchResults = await searchMovies(searchQuery)
-            setMovies(searchResults)
-            setError(null) 
-        } catch(err) {
-            console.log(err);
-            setError("Failed to search movies...")
-        } finally {
-            setLoading(false)
+        if(!value.trim()) {
+            const fetchMovies = async () => {
+                try{
+                    let movieData;
+                    if (selectedGenre) {
+                        movieData = await getMoviesByGenre(selectedGenre.id);
+                    } else {
+                        movieData = await getPopularMovies();
+                    }
+                    setMovies(movieData);
+                    setError(null);
+                } catch(error){
+                    console.error("Error fetching movies:", error);
+                    setError("Failed to load movies...");
+                }
+            };
+            fetchMovies();
         }
-        
-        
     };
 
     if (loading) {
@@ -84,15 +107,14 @@ function Home() {
 
     return <div className="home">
         <h2 className="title">Popular Movies</h2>
-        <form onSubmit={handleSearch} className="search-form">
+        <div className="search-form">
             <input 
             type="text" 
             placeholder="Search for a movie..." 
             className="search-input" 
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}/>
-            <button type="submit" className="search-button">Search</button>
-        </form>
+            onChange={handleInputChange}/>
+        </div>
 
         {error && <div className="error-message">{error}</div>}
         {loading ? <div className="loading">Loading...</div> : 
