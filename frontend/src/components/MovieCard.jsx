@@ -3,6 +3,7 @@ import { useMovieContext } from "../context/MovieContext";
 import { getMovieDetails } from "../services/api";
 import { useEffect, useState } from "react";
 import MovieDetails from "./MovieDetails";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -11,6 +12,8 @@ function MovieCard({ movie }) {
     const favorite = isFavorite(movie.id);
     const [movieDetails, setMovieDetails] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
@@ -43,6 +46,7 @@ function MovieCard({ movie }) {
 
     function onFavouriteClick(e) {
         e.preventDefault()
+        e.stopPropagation(); // Prevent the card click when clicking favorite
         if(favorite){
             removeFromFavorites(movie.id);
         } else {
@@ -50,11 +54,15 @@ function MovieCard({ movie }) {
         }
     }
 
-    function onCardClick(){
+    /*function onCardClick(){
         setShowDetails(true);
     }
     function closeDetails(){
         setShowDetails(false);
+    }*/
+
+    function onCardClick(){
+        navigate(`/movie/${movie.id}`);  // Navigate to the movie details page
     }
 
   return <div className="movie-card" onClick={onCardClick}>
@@ -76,11 +84,11 @@ function MovieCard({ movie }) {
 
         </div>
 
-        <MovieDetails
+       {/* <MovieDetails
             movie={movieDetails}
             onClose={closeDetails}
             isOpen={showDetails}
-        />
+        />*/}
 
   </div>
 

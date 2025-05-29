@@ -1,4 +1,3 @@
-
 import './css/App.css';
 import MovieCard from './components/MovieCard'
 import Favourite from './pages/Favourites';
@@ -8,6 +7,7 @@ import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import { MovieProvider } from './context/MovieContext';
 import { Movie } from '@mui/icons-material';
+import MovieDetails from './components/MovieDetails';
 
 function App() {
   const movieNumber = 1;
@@ -22,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favourite" element={<Favourite />} />
+          <Route path="/movie/:id" element={<MovieDetails />} />
 
 
         </Routes> 

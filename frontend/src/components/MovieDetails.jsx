@@ -1,29 +1,32 @@
 import {useState, useEffect} from 'react'
+import{useParams, useNavigate} from 'react-router-dom'
 import "../css/MovieDetails.css"
 import { useMovieContext } from '../context/MovieContext'  
 import { getMovieDetails, getMovieCast } from '../services/api'
 
-function MovieDetails({movie, isOpen, onClose}){
+function MovieDetails(){
+    const { id } = useParams(); // Get movie ID from URL
+    const navigate = useNavigate();
     const [movieDetails, setMovieDetails] = useState(null);
     const[cast, setCast] = useState([]);
     const[loading, setLoading] = useState(false);
     const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
 
-    const favorite = isFavorite(movie?.id);
+    const favorite = isFavorite(parseInt(id));
 
     useEffect(()=>{
-        if(isOpen && movie){
+        
             fetchMovieDetails();
-        }
-    }, [isOpen, movie])
+        
+    }, [id]);
 
     const fetchMovieDetails = async () => {
         setLoading(true);
         try {
-            const details = await getMovieDetails(movie.id);
+            const details = await getMovieDetails(id);
             setMovieDetails(details);
 
-            const castData = await getMovieCast(movie.id);
+            const castData = await getMovieCast(id);
             setCast(castData); 
         } catch (error) {
             console.error("Error fetching movie details:", error);
@@ -34,11 +37,15 @@ function MovieDetails({movie, isOpen, onClose}){
 
     const handleFavoriteClick = () => {
     if (favorite) {
-      removeFromFavorites(movie.id);
+      removeFromFavorites(parseInt(id));
     } else {
-      addToFavorites(movie);
+      addToFavorites(movieDetails);
     }
   };
+
+  const handleBackClick = () => {
+        navigate(-1); // Go back to previous page
+    };
 
   const formatRuntime = (minutes) => {
     const hours = Math.floor(minutes / 60);
@@ -55,24 +62,29 @@ function MovieDetails({movie, isOpen, onClose}){
     }).format(amount);
   };
 
-    if (!isOpen) return null;
+     if (loading) {
+        return (
+            <div className="loading-spinner">
+                <div className="spinner"></div>
+                <p>Loading movie details...</p>
+            </div>
+        );
+    }
+
+    if (!movieDetails) {
+        return <div>Movie not found</div>;
+    }
 
 
     return(
-        <div className="movie-details-overlay" onClick={onClose}>
-            <div className="movie-details-modal" onClick={(e) => e.stopPropagation()}>
-                <button className="close-btn" onClick={onClose}>
+        <div className="movie-details-overlay" >
+            <div className="movie-details-modal" >
+                <button className="close-btn" onClick={handleBackClick}>
                     ×
                 </button>
 
-                {loading? (
-                    <div className="loading-spinner">
-                        <div className="spinner"></div>
-                        <p>Loading movie details...</p>
-                    </div>
-                    
-                ):(
-                    movieDetails && (
+                
+                
                         <div className="movie-details-content">
                             <div className="details-header">
                                 <div className="backdrop-container">
@@ -136,9 +148,10 @@ function MovieDetails({movie, isOpen, onClose}){
                                 </div>
 
                                 <div className="section">
-                                    <h2>Cast</h2>
+                                    
+                                    <h2>Main Cast</h2>
                                     <div className="cast-grid">
-                                        {cast.map((actor)=>(
+                                        {cast.filter(actor => actor.order < 10).map((actor)=>(
                                             <div className="cast-member" key={actor.id}>
                                                 <div className="actor-photo">
                                                     {actor.profile_path ? (
@@ -216,8 +229,8 @@ function MovieDetails({movie, isOpen, onClose}){
 
                             </div>
                         </div>
-                    )
-                )}
+                    
+                
             </div>
         </div>
     );
