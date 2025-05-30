@@ -84,11 +84,7 @@ function MovieCard({ movie }) {
 
         </div>
 
-       {/* <MovieDetails
-            movie={movieDetails}
-            onClose={closeDetails}
-            isOpen={showDetails}
-        />*/}
+       
 
   </div>
 

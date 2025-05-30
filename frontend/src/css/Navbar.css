@@ -1,26 +1,73 @@
 .navbar {
-  background-color: #000000;
+  background-color: var(--nav-bg, #000000);
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--nav-shadow, 0 2px 4px rgba(0, 0, 0, 0.1));
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all var(--transition-speed, 0.3s) ease;
+  border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
 }
 
 .navbar-brand {
   
   font-size: 1.5rem;
   font-weight: bold;
+  color: var(--text-primary, #ffffff);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all var(--transition-speed, 0.3s) ease;
 }
 
-.navbar-brand .brand-tagline {
+.navbar-brand:hover {
+  color: var(--accent-color, #e50914);
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  /* Dark mode: white, Light mode: #e50914 */
+  color: var(--brand-color, #ffffff);
+}
+
+/* Explicit theme targeting for brand name */
+[data-theme="dark"] .brand-name {
+  color: #ffffff;
+}
+
+[data-theme="light"] .brand-name {
+  color: #e50914;
+}
+
+.brand-tagline {
   font-size: 0.875rem;
-  color: #888888;
+  color: var(--text-secondary, #888888);
+  margin-top: 2px;
+  transition: color var(--transition-speed, 0.3s) ease;
+}
+
+.navbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  margin: 0 2rem;
+}
+
+.genre-dropdown {
+  position: relative;
 }
 
 .navbar-links {
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .nav-link {
@@ -29,12 +76,34 @@
   border-radius: 4px;
   color: #e50914;
   transition: background-color 0.2s;
+  position: relative;
+  overflow: hidden;
+    transition: all 0.3s ease;
+
+}
+
+[data-theme="dark"] .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e50914;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .nav-link:hover {
+  background-color: rgba(229, 9, 20, 0.1);
+  color: #c41e3a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(229, 9, 20, 0.2);
 }
 
 .nav-link:hover {
   background-color: rgba(255, 255, 255, 0.1);
   color: #e50914;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+
 
 
 

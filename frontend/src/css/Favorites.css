@@ -1,34 +1,40 @@
 .favorites {
   padding: 2rem;
   width: 100%;
-  box-sizing: border-box;
+   background-color: var(--bg-primary, #121212);
+  min-height: 100vh;
+  transition: all var(--transition-speed, 0.3s) ease;
 }
 
 .favorites h2 {
   margin-bottom: 2rem;
   text-align: center;
   font-size: 2.5rem;
-  color: #ffffff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: var(--text-primary, #ffffff);
+  text-shadow: 2px 2px 4px var(--shadow-color, rgba(0, 0, 0, 0.3));
+  transition: all var(--transition-speed, 0.3s) ease;
 }
 
 .favorites-empty {
   text-align: center;
   padding: 4rem 2rem;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card, rgba(255, 255, 255, 0.05));
   border-radius: 12px;
   margin: 2rem auto;
   max-width: 600px;
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+  transition: all var(--transition-speed, 0.3s) ease;
+  box-shadow: var(--box-shadow-medium, 0 4px 16px rgba(0, 0, 0, 0.15));
 }
 
 .favorites-empty h2 {
   margin-bottom: 1rem;
   font-size: 2rem;
-  color: #e50914;
+  color: var(--accent-color, #e50914);
 }
 
 .favorites-empty p {
-  color: #999;
+  color: var(--text-secondary, #999);
   font-size: 1.2rem;
   line-height: 1.6;
 }

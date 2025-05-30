@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import { MovieProvider } from './context/MovieContext';
 import { Movie } from '@mui/icons-material';
 import MovieDetails from './components/MovieDetails';
+import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
   const movieNumber = 1;
@@ -16,19 +17,22 @@ function App() {
 
   return (
   <>
-    <MovieProvider>
-      <NavBar />
-      <main className='main-content'>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/favourite" element={<Favourite />} />
-          <Route path="/movie/:id" element={<MovieDetails />} />
+    <ThemeProvider>
+      <MovieProvider>
+        <NavBar />
+        <main className='main-content'>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/favourite" element={<Favourite />} />
+            <Route path="/movie/:id" element={<MovieDetails />} />
 
 
-        </Routes> 
-      </main>
-    </MovieProvider>
-    <Footer />
+          </Routes> 
+        </main>
+      </MovieProvider>
+    
+      <Footer />
+    </ThemeProvider>
   </>
   )
   

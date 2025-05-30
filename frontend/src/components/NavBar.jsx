@@ -3,6 +3,7 @@ import '../css/NavBar.css';
 import { Heart, Film, Star, ChevronDown } from 'lucide-react';
 import { useMovieContext } from "../context/MovieContext";
 import { useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 function NavBar() {
     const { genres, selectedGenre, setSelectedGenre } = useMovieContext();
@@ -58,6 +59,8 @@ function NavBar() {
         <div className="navbar-links">
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/favourite" className="nav-link">Favourites</Link>
+
+            <ThemeToggle />
 
         </div>
     </nav>
